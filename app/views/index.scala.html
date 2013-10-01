@@ -1,0 +1,161 @@
+@(mediaList: List[Media])
+@main("Todo list") {
+	
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<title>Captitude</title>
+		<link href="/assets/stylesheets/css.css" rel="stylesheet" type="text/css">
+		<link href="/assets/stylesheets/css_002.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="/assets/stylesheets/style.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<div id="logo">
+					<h1>CAPTITUDE</h1>
+				</div>
+				<div id="menu">
+					<ul>
+						<li class="first active"><a href="#">Home</a></li>
+						<li><a href="#">Videos</a></li>
+						<li><a href="#">News</a></li>
+						<li><a href="#">Pictures</a></li>
+						<li class="last"><a href="useradmin.html">Your Titles</a></li>
+					</ul>
+					<br class="clearfix">
+				</div>
+			<div id="login">		
+					Login:<a href="useradmin.html">Your Titles</a> <a href="twitteroauth/redirect.php"><img src="img/twitter_lighter.png"></a> | Facebook | Google
+			</div>
+			</div>
+
+			<div id="page">
+				<div id="sidebar">
+					<div class="box">
+						<h3>Today's Videos</h3>
+						<!-- Display todays Media-->
+						<ul class="list">
+							<!-- list all of todays titles -->
+							@for(media <- mediaList) {
+								<li><a href='#' onClick='changeVid("@media.getId()")'>@media.getId()</a><div class=\"createddate\">@media.getId()|@media.getMediaDate()</div></li>
+							}
+						</ul>
+					</div>
+				</div>	
+	
+	
+@for(media <- mediaList) {
+	
+					<div id="content" >
+					<div class="box hideable stopableVids" id="@media.getId()" >
+						<div class="vidBody"><H2>@media.getId()</H2>
+							<iframe width="350" height="230"  src="http://www.youtube.com/embed/@media.getMedia()?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+							<div  class="vidFooter">
+								<p id="clickMe1" onClick="showComments('#vidComments2')">What would you title it?>><br/>
+								<textarea id="titleText@media.getId()"></textarea>
+								<a href='#' onClick='submitTitle("@media.getId()")'>submit</a>
+								<p>
+							</div>	
+						</div>
+						<div class="vidTitleSection">
+							<h3>Runner Up Titles...</h3>
+							<div class="vidTitleVotes">
+								<ul class="list" id="titles@media.getId()">
+								<!-- This is where the titles list will go -->
+								</ul>										
+							</div>	
+						</div>
+					</div>
+				</div>
+	
+	
+            <!-- li> 
+            	<iframe width="350" height="230"  src="http://www.youtube.com/embed/@media.getMedia()" rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>>
+            </li -->
+       }
+}
+
+
+			<br class="clearfix">						
+		</div>
+		<div id="footer">
+			<!--© 2012 Untitled | Design by <a href="http://www.freecsstemplates.org/">FCT</a> | Images by <a href="http://fotogrph.com/">Fotogrph</a>-->
+		</div>
+
+		<div class="result">
+		</div>
+
+
+</body>
+
+
+
+<script>
+var easeRate = 500;
+
+var currentVideo = "";
+function changeVid(container) {
+  $(".hideable").filter(":visible").toggle(easeRate);
+  $(container).toggle(easeRate);
+  currentVideo = container;
+ 
+}
+
+changeVid("#vid1");
+
+
+function vote(titleId, media_id){
+
+	$.post('vote.php?title_id=' + titleId, function(data) {
+  		$('.result').html(data);
+                populateTitles(media_id);
+	});
+
+	
+
+}
+
+
+function submitTitle(media_id){
+
+	var text = $('#titleText'+media_id).val();
+	$.post('submittitle.php?title=' + text + '&media_id=' + media_id, function(data) {
+  		$('.result').html(data);
+                populateTitles(media_id);
+	});
+
+}
+
+
+function populateTitles(media_id){
+	$.post('getTitles.php?&media_id=' + media_id, function(data) {
+  		$('#titles' + media_id).html(data);
+	});
+}
+
+
+
+<?php
+    mysql_data_seek($result,0);
+
+while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+
+	echo("populateTitles(\"" . $row[3] . "\");");
+}
+
+    mysql_free_result($result);
+
+
+
+
+
+?>    
+</script>
+
+
+</html>
+

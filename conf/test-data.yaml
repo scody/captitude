@@ -1,0 +1,45 @@
+- !!models.Media
+    id: 1
+    media: enCQ1HtBwTo
+    mediaType: YOUTUBE
+    mediaDate: 2013-09-20 2:59:43.10
+    titles:
+    - !!models.Title
+        id: 1
+        userId: scody
+        titleText: Oh Yeah, great mouth!
+        createDate: 2013-09-20 5:59:43.10
+        userIdVotes:
+        - Megan
+        - Madeleine
+    - !!models.Title
+        id: 2
+        userId: jeff
+        titleText: This is jeff's test
+        createDate: 2013-09-21 5:59:43.10
+        userIdVotes:
+        - one
+        - Madeleine
+
+- !!models.Media
+    id: 2
+    media: zprRZ2wFQD4
+    mediaType: YOUTUBE
+    mediaDate: 2013-09-20 2:59:43.10
+    titles:
+    - !!models.Title
+        id: 1
+        userId: scody
+        titleText: Oh Yeah, great mouth!
+        createDate: 2013-09-20 5:59:43.10
+        userIdVotes:
+        - Megan
+        - Madeleine
+    - !!models.Title
+        id: 2
+        userId: jeff
+        titleText: This is jeff's test
+        createDate: 2013-09-21 5:59:43.10
+        userIdVotes:
+        - one
+        - Madeleine
